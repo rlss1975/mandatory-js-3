@@ -1,42 +1,80 @@
 'use strict';
 
-
-
-/*****************DOM***********************
-// El contenido HTML del elemento con id "contenido"
-console.log(document.getElementById("contenido").innerHTML);
+//esta ruta me devolvera una imagen random
+//sobre todas las razas
+//cargaremos sobre imagen y su url/src
+//https://dog.ceo/api/breeds/list/all
+//https://dog.ceo/api/breeds/image/random
 //
-var h = document.head; // La variable h contiene el objeto head del DOM
-console.log(h);
 
-var b = document.body; // La variable b contiene el objeto body del DOM
-console.log(b);
-// Modificación del contenido HTML de la lista
+// esta array sobre raza
+//https://dog.ceo/api/breed/hound/images
+//https://dog.ceo/api/breed/${mi variable de perro}/images
 //
-document.getElementById("lenguajes").innerHTML += '<li id="c">C</li>';
-*/
+//
+//https://dog.ceo/api/breed/hound/afghan/images
+//https://dog.ceo/api/breed/${breed}/${sub-breed}/images
+//imagen random sub-breed
+//https://dog.ceo/api/breed/hound/afghan/images/random
+
+function ajaxGet (url,myFunction){
+	let req = new XMLHttpRequest();
+	req.open("GET",url,true);
+	req.addEventListener("load",()=>{
+		if (req.status >= 200 && req.status < 400) {
+			console.log(req.responseText);
+			myFunction(req.responseText);
+		}else{
+			console.log(req.status +" "+ req.statusText);
+		}
+	});
+	req.addEventListener("error",()=>{console.log("request ankom inte till server");});
+	req.send(null);
+};
+
+//
+let allBreedList = 'https://dog.ceo/api/breeds/list/all';
 /*
-// Supresión del contenido HTML de la lista
-document.getElementById("lenguajes").innerHTML = '';
+ajaxGet(allBreedList);
+//
+let allBreedAllRandomImages = 'https://dog.ceo/api/breeds/image/random';
+ajaxGet(allBreedAllRandomImages);
+//
+let BreedRandomImage = `https://dog.ceo/api/breed/${breed}/images`;
+ajaxGet(allBreedList);
+//
+let subBreedRandomImage = `https://dog.ceo/api/breed/${breed}/${subBreed}/images`;
+ajaxGet(allBreedList);
+//
 */
-// El atributo href del primer enlace
-//console.log(document.querySelector("a").getAttribute("href"));
+// cargaremos url = urlIn que a suvez caragara segun las necesidades.
+//let urlIn = subBreedRandomImage;
 
-/*************************
+//function for att render list
+function renderaList (dataIn){
+	let data = JSON.parse(dataIn);
+	// här, convertera obj av obj, till array .
+	let print;
+	if (typeof(data)==='object'){
+		console.log(data.message);
+		let dataArray = Object.keys(data.message);
+		console.log(dataArray);
+		print = dataArray;
+	}else{
+		print = data;
+	}
+	console.log(print);
+	print.forEach(()=>{
+		//rendera con DOM
 
-1. cargamos lista con request asincrono automatico.y evento load.
+	})
+	//istObj.forEach()
 
-2. los elementos que carguemos y rendericemos, les daremos clase 
-para que se conviertan en eventos click.
-3. en este punto el boton/evento debe tener en sun callbak un get request sobre el 
-random que le pertoque.(carga de url corecta).Haremis request a traves de eventos.
-
-
-3.cuando pulsemos click sobre raza , renderizaremos nueva lista de 
-subraza por si existe.Lo haremos tambien a traves de evento/callbak.
-aqui en la logica desde el objeto clikado cargaremos el array y miraremos si tiene valores.
-si los tiene renderizaremos botones que carguen clase para potencilaes eventos.
-
----y aqui ya solo cargaremos sobre el boton de imagen la url random para esa raza--
-
-En paralelo,
+	/*
+	let listKeys = Object.keys(listObj);
+	console.log(listKeys);
+	let listArray = Object.entries(listObj);
+	console.log(listArray);
+	*/
+}
+ajaxGet(allBreedList,renderaList);
