@@ -4,31 +4,35 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<script src="script.js" defer></script>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<header>
 		<h1>PERROS</h1>
 	</header>
 	<main>
-		<div>
+		<div id="col1">
 				<h2>Lista de Razas</h2>
+				
 			<ul id="breed">
 				
 			</ul>
 		</div>
-		<div>
+		<div id="col2">
 			<h2>Tipos dentro de La Raza</h2>
 			<ul  id="subBreed">
 				
 			</ul>
 		</div>
-		<div>
-			<h2>Imagenes del tipo seleccionado</h2>
-			<div id="bilder">
-				<img src="" alt="">
-			</div>
+		<div id="col3">
+			<h2 id="hundTitle"></h2>
 			<button id="knapp">Refresh Img</button>
+			<div id="bilder">
+				<img src="" alt="" id="hundBild">
+			</div>
+			
 		</div>
+
 	</main>
 	<footer>
 		

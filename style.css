@@ -1,0 +1,33 @@
+main {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+	
+}
+
+#col1, #col2{
+	width: 20%;
+
+}
+#col3{
+	width: 50%;
+}
+li{
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	background: grey;
+	margin: 10px 0px ;
+	padding:5px 0px;
+
+}
+#bilder{
+width: 100%;
+
+
+}
+#hundBild{
+	width: 100%;
+
+}
