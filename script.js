@@ -108,7 +108,7 @@ function renderaList (dataIn){
 function listAddEvent(liElements){
 	for (let li of liElements){
 		li.addEventListener('click',(event)=>{
-			//
+			
 			flagBreedSelected = 0;
 			flagSubBreedSelected = 0;
 			console.log(event);
@@ -124,10 +124,20 @@ function listAddEvent(liElements){
 			if( flagBreedSelected === 1 && flagSubBreedSelected === 0){
 				console.log(data);
 				for (let subItem of data.message[selectedHund]) {
-					debugger;
+					//vi passar på att rendera och visar sub-breed av selected breed
 					console.log(subItem);
+					let sthetic = capitalize(subItem);
+
+					vSubBreedUL.innerHTML += `<li class="subBreed" id="${subItem}">${sthetic}</li>`;
+
+		
+				//listAddEvent(vSelectedBreed);
 					// statement
 				}
+				vButtonUrl ='';
+				//nu ska vi bara se hundarna av en selected breed.
+				//let urlBreed = `https://dog.ceo/api/breed/${selectedHund}/images/random`;
+				vButtonUrl = `https://dog.ceo/api/breed/${selectedHund}/images/random`;
 			}
 		});
 	};
