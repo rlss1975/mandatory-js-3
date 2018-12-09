@@ -1,38 +1,34 @@
 'use strict';
-
-//esta ruta me devolvera una imagen random
-//sobre todas las razas
-//cargaremos sobre imagen y su url/src
-//https://dog.ceo/api/breeds/list/all
-//https://dog.ceo/api/breeds/image/random
 //
 //main column 1 i main /index.html
 let vBreedUL = document.querySelector('#breed')
 //main column 2
-let vSubBreedUL = document.querySelector('#subBreed')
+let vSubBreedUL = document.querySelector('#idSubBreed')
 //main column 3
-
 let vHundTitle = document.querySelector('#hundTitle');
 let vHundImg = document.querySelector('#hundBild')
 let vButton = document.querySelector('#knapp');
 let vSelectedBreed = document.getElementsByClassName('breed');
+let vSelectedSubBreed = document.getElementsByClassName('SubBreed');
+//
+//Internal data i .js
 let vButtonUrl;
 let allBreedList = 'https://dog.ceo/api/breeds/list/all';
 let allBreedAllRandomImages = 'https://dog.ceo/api/breeds/image/random';
+//let breedRandomImage = `https://dog.ceo/api/breed/${}/images/random`;
+//let subBreedRandomImage = `https://dog.ceo/api/breed/${}/${}/images/random`;
 let data;
 let flagBreedSelected = 0;
 let flagSubBreedSelected = 0;
-
-// esta array sobre raza
-//https://dog.ceo/api/breed/hound/images
-//https://dog.ceo/api/breed/${mi variable de perro}/images
 //
 //
-//https://dog.ceo/api/breed/hound/afghan/images
-//https://dog.ceo/api/breed/${breed}/${sub-breed}/images
-//imagen random sub-breed
-//https://dog.ceo/api/breed/hound/afghan/images/random
-
+/*******************************************/
+/************PROGRAM EXECUTION**************/
+/*******************************************/
+ajaxGet(allBreedList,renderaList);
+/*******************************************/
+/*******************************************/
+//
 function ajaxGet (url,myFunction){
 	let req = new XMLHttpRequest();
 	req.open("GET",url,true);
@@ -47,28 +43,9 @@ function ajaxGet (url,myFunction){
 	req.addEventListener("error",()=>{console.log("request ankom inte till server");});
 	req.send(null);
 };
-
 //
-
-/*
-ajaxGet(allBreedList);
-//
-
-ajaxGet(allBreedAllRandomImages);
-//
-let BreedRandomImage = `https://dog.ceo/api/breed/${breed}/images`;
-ajaxGet(allBreedList);
-//
-let subBreedRandomImage = `https://dog.ceo/api/breed/${breed}/${subBreed}/images`;
-ajaxGet(allBreedList);
-//
-*/
-// cargaremos url = urlIn que a suvez caragara segun las necesidades.
-//let urlIn = subBreedRandomImage;
-
 //function for att render list
 function renderaList (dataIn){
-	
 		//Vi renderar list på column 1 ( general breed lista)
 		data = JSON.parse(dataIn);
 		// Målet är få en array även dataIn är en object.
@@ -91,56 +68,50 @@ function renderaList (dataIn){
 			vButtonUrl = allBreedAllRandomImages;
 		});
 		listAddEvent(vSelectedBreed);
-
-	//här skapa vi en addeventlistener for alla elementer i grund listan
-
-	
-	//istObj.forEach()
-
-	/*
-	let listKeys = Object.keys(listObj);
-	console.log(listKeys);
-	let listArray = Object.entries(listObj);
-	console.log(listArray);
-	*/
 };
-
+//
 function listAddEvent(liElements){
-	for (let li of liElements){
-		li.addEventListener('click',(event)=>{
-			
-			flagBreedSelected = 0;
-			flagSubBreedSelected = 0;
-			console.log(event);
-			let selectedHund = event.target.id;
-			console.log(selectedHund);
-			if(event.target.className ==='breed'){
-				flagBreedSelected = 1;
-			}else if (event.target.className === 'subBreed'){
-				flagSubBreedSelected = 1;
-			}else{
-				console.log("jag vet inte");
-			}
-			if( flagBreedSelected === 1 && flagSubBreedSelected === 0){
-				console.log(data);
-				for (let subItem of data.message[selectedHund]) {
-					//vi passar på att rendera och visar sub-breed av selected breed
-					console.log(subItem);
-					let sthetic = capitalize(subItem);
-
-					vSubBreedUL.innerHTML += `<li class="subBreed" id="${subItem}">${sthetic}</li>`;
-
-		
-				//listAddEvent(vSelectedBreed);
-					// statement
-				}
-				vButtonUrl ='';
-				//nu ska vi bara se hundarna av en selected breed.
-				//let urlBreed = `https://dog.ceo/api/breed/${selectedHund}/images/random`;
-				vButtonUrl = `https://dog.ceo/api/breed/${selectedHund}/images/random`;
-			}
-		});
-	};
+	//
+		for (let liBreed of liElements){
+				liBreed.addEventListener('click',(event)=>{
+							//
+							flagBreedSelected = 0;
+							flagSubBreedSelected = 0;
+							console.log(event);
+							let selectedHund = event.target.id;
+							console.log(selectedHund);
+							if(event.target.className ==='breed'){
+								flagBreedSelected = 1;
+							}else if (event.target.className === 'subBreed'){
+								flagSubBreedSelected = 1;
+							}else{
+								console.log("jag vet inte");
+							}
+							//
+							//
+							if( flagBreedSelected === 1 && flagSubBreedSelected === 0){
+								console.log(data);
+								for (let subItem of data.message[selectedHund]) {
+									//vi passar på att rendera och visar sub-breed av selected breed
+									console.log(subItem);
+									let sthetic = capitalize(subItem);
+									vSubBreedUL.innerHTML += `<li class="subBreed" id="${subItem}">${sthetic}</li>`;
+								}
+								vButtonUrl ='';
+								vButtonUrl = `https://dog.ceo/api/breed/${selectedHund}/images/random`;
+							}else if (flagBreedSelected === 0 && flagSubBreedSelected === 1){
+								//
+								//
+							}else{
+								//
+								//
+							}
+							for (let liSubBreed of vSelectedSubBreed) {
+									debugger;
+									console.log(liSubBreed);
+							}
+				});
+		};
 };
 //
 //
@@ -151,11 +122,11 @@ function capitalize(str) {
 //event knappen Refresh Img
 vButton.addEventListener('click',()=>{
 	ajaxGet(vButtonUrl,(imgUrlJson)=>{
-		console.log(imgUrlJson);
-		let imgUrl = JSON.parse(imgUrlJson);
-		console.log(imgUrl.message);
-		vHundImg.setAttribute('src', imgUrl.message);
-	})
+				console.log(imgUrlJson);
+				let imgUrl = JSON.parse(imgUrlJson);
+				console.log(imgUrl.message);
+				vHundImg.setAttribute('src', imgUrl.message);
+		})
 });
 //
 
@@ -163,7 +134,7 @@ vButton.addEventListener('click',()=>{
 
 
 //
-ajaxGet(allBreedList,renderaList);
+
 //aqui convertimos en listeners a los elementos 
 
 
