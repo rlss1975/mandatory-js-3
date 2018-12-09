@@ -15,8 +15,13 @@ let vSubBreedUL = document.querySelector('#subBreed')
 let vHundTitle = document.querySelector('#hundTitle');
 let vHundImg = document.querySelector('#hundBild')
 let vButton = document.querySelector('#knapp');
+let vSelectedBreed = document.getElementsByClassName('breed');
 let vButtonUrl;
+let allBreedList = 'https://dog.ceo/api/breeds/list/all';
 let allBreedAllRandomImages = 'https://dog.ceo/api/breeds/image/random';
+let data;
+let flagBreedSelected = 0;
+let flagSubBreedSelected = 0;
 
 // esta array sobre raza
 //https://dog.ceo/api/breed/hound/images
@@ -44,7 +49,7 @@ function ajaxGet (url,myFunction){
 };
 
 //
-let allBreedList = 'https://dog.ceo/api/breeds/list/all';
+
 /*
 ajaxGet(allBreedList);
 //
@@ -63,29 +68,33 @@ ajaxGet(allBreedList);
 
 //function for att render list
 function renderaList (dataIn){
-	let data = JSON.parse(dataIn);
-	// Målet är få en array även dataIn är en object.
-	let attPrint;
-	if (typeof(data)==='object'){
-		//
-		console.log(data.message);
-		let dataArray = Object.keys(data.message);
-		console.log(dataArray);
-		attPrint = dataArray;
-	}else{
-		attPrint = data;
-	}
-	console.log(attPrint);
-	attPrint.forEach((element)=>{
-		//aqui hay que hacer algo para diferenciar la lista col 1 o col 2 MIRANDO SI LA LISTA 1 TIENE CONTENIDO O NO
-		let sthetic = capitalize(element);
-		vBreedUL.innerHTML += `<li class="breed" id="${element}">${sthetic}</li>`;
-		vButtonUrl ='';
-		vButtonUrl = allBreedAllRandomImages;
+	
+		//Vi renderar list på column 1 ( general breed lista)
+		data = JSON.parse(dataIn);
+		// Målet är få en array även dataIn är en object.
+		let attPrint;
+		if (typeof(data)==='object'){
+			//
+			console.log(data.message);
+			let dataArray = Object.keys(data.message);
+			console.log(dataArray);
+			attPrint = dataArray;
+		}else{
+			attPrint = data;
+		}
+		console.log(attPrint);
+		attPrint.forEach((element)=>{
+			//aqui hay que hacer algo para diferenciar la lista col 1 o col 2 MIRANDO SI LA LISTA 1 TIENE CONTENIDO O NO
+			let sthetic = capitalize(element);
+			vBreedUL.innerHTML += `<li class="breed" id="${element}">${sthetic}</li>`;
+			vButtonUrl ='';
+			vButtonUrl = allBreedAllRandomImages;
+		});
+		listAddEvent(vSelectedBreed);
 
-		//extraemos tambien
+	//här skapa vi en addeventlistener for alla elementer i grund listan
 
-	})
+	
 	//istObj.forEach()
 
 	/*
@@ -94,12 +103,42 @@ function renderaList (dataIn){
 	let listArray = Object.entries(listObj);
 	console.log(listArray);
 	*/
-}
+};
 
+function listAddEvent(liElements){
+	for (let li of liElements){
+		li.addEventListener('click',(event)=>{
+			//
+			flagBreedSelected = 0;
+			flagSubBreedSelected = 0;
+			console.log(event);
+			let selectedHund = event.target.id;
+			console.log(selectedHund);
+			if(event.target.className ==='breed'){
+				flagBreedSelected = 1;
+			}else if (event.target.className === 'subBreed'){
+				flagSubBreedSelected = 1;
+			}else{
+				console.log("jag vet inte");
+			}
+			if( flagBreedSelected === 1 && flagSubBreedSelected === 0){
+				console.log(data);
+				for (let subItem of data.message[selectedHund]) {
+					debugger;
+					console.log(subItem);
+					// statement
+				}
+			}
+		});
+	};
+};
+//
+//
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
-}
+};
 //
+//event knappen Refresh Img
 vButton.addEventListener('click',()=>{
 	ajaxGet(vButtonUrl,(imgUrlJson)=>{
 		console.log(imgUrlJson);
@@ -108,10 +147,16 @@ vButton.addEventListener('click',()=>{
 		vHundImg.setAttribute('src', imgUrl.message);
 	})
 });
+//
+
+
 
 
 //
 ajaxGet(allBreedList,renderaList);
+//aqui convertimos en listeners a los elementos 
+
+
 //1. HAY QUE HACER UN EVENTO CLICK SOBRE LA CLASE BREED EN LA LISTA GENERAL. ESTO LLAMARA A LA FUNCION GET AJAX SOBRE LA RAZA EN CONCRETO Y USAREMOS SUS DATOS.
 //2. OTRO EVENTO SOBRE LA CLASE SUBREED QUE HAGA LO MISMO ACONTANDO A DATOS SUBREED  
 // aqui un event listener click sobre breed que active una logica de busqueda sobre objeto para ver sus objetos
