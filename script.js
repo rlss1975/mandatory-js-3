@@ -27,18 +27,14 @@ let flagSubBreedSelected = 0;
 /*******************************************/
 /*********PROGRAM EXECUTION CONTROL*********/
 /*******************************************/
-ajaxGet(allBreedList,renderaGeneralList);
+//
+ajaxGet(allBreedList,renderaList);
+//
+vButton.addEventListener('click',()=>{ajaxGet(vButtonUrl,getImgUrl)});
+//
+/*******************************************/
+/*******************************************/
 
-vButton.addEventListener('click',()=>{
-	ajaxGet(vButtonUrl,(imgUrlJson)=>{
-				console.log(imgUrlJson);
-				let imgUrl = JSON.parse(imgUrlJson);
-				console.log(imgUrl.message);
-				vHundImg.setAttribute('src', imgUrl.message);
-		})
-});
-/*******************************************/
-/*******************************************/
 //
 function ajaxGet (url,myFunction){
 	let req = new XMLHttpRequest();
@@ -54,6 +50,8 @@ function ajaxGet (url,myFunction){
 	req.addEventListener('error',()=>{console.log('Förfrågan lyckades inte nå serven');});
 	req.send(null);
 };
+
+
 //
 //function for att render list
 /*
@@ -81,7 +79,7 @@ function renderaGeneralList (dataIn){
 		});
 		listAddEvent(vSelectedBreed);
 };*/
-function renderaGeneralList (dataIn){
+function renderaList (dataIn){
 	//Vi renderar list på column 1 ( general breed lista)
 	
 	if (flagBreedSelected === 0 && flagSubBreedSelected === 0){
@@ -99,6 +97,8 @@ function renderaGeneralList (dataIn){
 		//debugger;
 		vButtonUrl ='';
 		vButtonUrl = allBreedAllRandomImages;
+		// vi passar på för att rendera en första img för att göra funktionalitet snyggare.
+		ajaxGet(vButtonUrl,getImgUrl)
 		//har controlerar vi om någon har clikat nån breed col 1
 		
 	}else	if(flagBreedSelected === 1 && flagSubBreedSelected === 0){
@@ -116,10 +116,12 @@ function renderaGeneralList (dataIn){
 		listAddEvent(vSelectedSubBreed);
   	vButtonUrl ='';
 		vButtonUrl = `https://dog.ceo/api/breed/${selectedItemIListorna}/images/random`;
+		ajaxGet(vButtonUrl,getImgUrl);
 	
 	}else if (flagBreedSelected === 0 && flagSubBreedSelected === 1){	
 		vButtonUrl ='';
 		vButtonUrl = `https://dog.ceo/api/breed/${lastSelectedBreed}/${selectedItemIListorna}/images/random`;
+		ajaxGet(vButtonUrl,getImgUrl);
 	}
 };
 
@@ -142,29 +144,36 @@ function listAddEvent(liElements){
 							if(event.target.className ==='classBreed'){
 								flagBreedSelected = 1;
 								flagSubBreedSelected = 0;
-								//renderaGeneralList(data);
+								
 							}else if (event.target.className === 'classSubBreed'){
 								flagBreedSelected = 0;
 								flagSubBreedSelected = 1;
-								//ajaxGet(allBreedList,renderaGeneralList);
+								
 
 							}else{
 								console.log("error i listAddEvent()");
 							}
-							renderaGeneralList(data);
+							renderaList(data);
 							
 
 				});
 		};
 };
 //
-//
+//capitalize viktor®
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 //
 //När man klikar på knappen vi gör en req till adressen som är laddad i vButtonUrl. Adressen ska bli kopplad till någon random img iAPI beroende på vilket adressen behover program logik. Detta adressen är laddad i <img>.
-
+function getImgUrl (imgUrlJson) {
+				console.log(imgUrlJson);
+				let imgUrl = JSON.parse(imgUrlJson);
+				console.log(imgUrl.message);
+				vHundImg.setAttribute('src', imgUrl.message);
+				//
+				
+};
 
 //
 
