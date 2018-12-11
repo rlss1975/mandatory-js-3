@@ -1,15 +1,15 @@
 'use strict';
 //
 //main column 1 i main /index.html
-let vBreedUL = document.querySelector('#breed')
+let vBreedUL = document.querySelector('#ulBreed');
 //main column 2
-let vSubBreedUL = document.querySelector('#idSubBreed')
+let vSubBreedUL = document.querySelector('#ulSubBreed');
 //main column 3
 let vHundTitle = document.querySelector('#hundTitle');
-let vHundImg = document.querySelector('#hundBild')
+let vHundImg = document.querySelector('#hundBild');
 let vButton = document.querySelector('#knapp');
-let vSelectedBreed = document.getElementsByClassName('breed');
-let vSelectedSubBreed = document.getElementsByClassName('SubBreed');
+let vSelectedBreed = document.getElementsByClassName('classBreed');
+let vSelectedSubBreed = document.getElementsByClassName('classSubBreed');
 let selectedItemIListorna;
 let lastSelectedBreed;
 //
@@ -83,8 +83,8 @@ function renderaGeneralList (dataIn){
 };*/
 function renderaGeneralList (dataIn){
 	//Vi renderar list på column 1 ( general breed lista)
-	//debugger;
-	if (flagSubBreedSelected === 0){
+	
+	if (flagBreedSelected === 0 && flagSubBreedSelected === 0){
 
 		data = JSON.parse(dataIn);
 		//vaciamos lista subrazas
@@ -92,37 +92,36 @@ function renderaGeneralList (dataIn){
 			//console.log(breed);
 			let sthetic = capitalize(breed);
 			//console.log(sthetic);
-			vBreedUL.innerHTML += `<li class="breed" id="${breed}">${sthetic}</li>`;
+			vBreedUL.innerHTML += `<li class="classBreed" id="${breed}">${sthetic}</li>`;
 		}
+		//debugger;
 		listAddEvent(vSelectedBreed);
 		//debugger;
 		vButtonUrl ='';
 		vButtonUrl = allBreedAllRandomImages;
 		//har controlerar vi om någon har clikat nån breed col 1
-		if(flagBreedSelected === 1 && flagSubBreedSelected === 0){
+		
+	}else	if(flagBreedSelected === 1 && flagSubBreedSelected === 0){
 		//random image for alla breed 
-			for (let breed of data.message[selectedItemIListorna]) {
-					// bara som memmory for använda senare
-					lastSelectedBreed = selectedItemIListorna;
-					//vi passar på att rendera och visar sub-breed av selected breed
-					console.log(breed);
-					let sthetic = capitalize(breed);
-					vSubBreedUL.innerHTML += `<li class="subBreed" id="${breed}">${sthetic}</li>`;
-			}
-			listAddEvent(vSelectedSubBreed);
-	  	vButtonUrl ='';
-			vButtonUrl = `https://dog.ceo/api/breed/${selectedItemIListorna}/images/random`;
+		vSubBreedUL.innerHTML = '';
+		for (let breed of data.message[selectedItemIListorna]) {
+				// bara som memmory for använda senare
+				lastSelectedBreed = selectedItemIListorna;
+				//vi passar på att rendera och visar sub-breed av selected breed
+				console.log(breed);
+				let sthetic = capitalize(breed);
+				vSubBreedUL.innerHTML += `<li class="classSubBreed" id="${breed}">${sthetic}</li>`;
 		}
-	}	
-	else if (flagBreedSelected === 0 && flagSubBreedSelected === 1){	
+		//debugger;
+		listAddEvent(vSelectedSubBreed);
+  	vButtonUrl ='';
+		vButtonUrl = `https://dog.ceo/api/breed/${selectedItemIListorna}/images/random`;
+	
+	}else if (flagBreedSelected === 0 && flagSubBreedSelected === 1){	
 		vButtonUrl ='';
 		vButtonUrl = `https://dog.ceo/api/breed/${lastSelectedBreed}/${selectedItemIListorna}/images/random`;
-
-							
 	}
-	
-
-}
+};
 
 		
 
@@ -130,25 +129,29 @@ function renderaGeneralList (dataIn){
 /* Här vi lägar till värje item i listor en event för att veta 
 vilket här clickt usr (breed /eller/ subbreed) */
 function listAddEvent(liElements){
-	//
+	console.log(liElements);;
+	//debugger;
 		for (let liBreed of liElements){
 				liBreed.addEventListener('click',(event)=>{
+							//debugger;
 							flagBreedSelected = 0;
 							flagSubBreedSelected = 0;
 							console.log(event);
 							selectedItemIListorna = event.target.id;
 							console.log(selectedItemIListorna);
-							if(event.target.className ==='breed'){
+							if(event.target.className ==='classBreed'){
 								flagBreedSelected = 1;
 								flagSubBreedSelected = 0;
-								ajaxGet(allBreedList,renderaGeneralList);
-							}else if (event.target.className === 'subBreed'){
+								//renderaGeneralList(data);
+							}else if (event.target.className === 'classSubBreed'){
 								flagBreedSelected = 0;
 								flagSubBreedSelected = 1;
-								ajaxGet(allBreedList,renderaGeneralList);
+								//ajaxGet(allBreedList,renderaGeneralList);
+
 							}else{
 								console.log("error i listAddEvent()");
 							}
+							renderaGeneralList(data);
 							
 
 				});
