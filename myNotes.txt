@@ -38,3 +38,13 @@ si los tiene renderizaremos botones que carguen clase para potencilaes eventos.
 En paralelo,
 
 */
+https://www.w3schools.com/js/js_window_location.asp
+El window.location objeto puede ser escrita sin el prefijo ventana.
+
+Algunos ejemplos:
+
+window.location.href devuelve el href (URL) de la página actual
+window.location.hostname devuelve el nombre de dominio del proveedor de alojamiento web
+window.location.pathname devuelve la ruta y el nombre de la página actual
+window.location.protocol devuelve el protocolo web utilizado (http: o https :)
+window.location.assign carga un nuevo documento
