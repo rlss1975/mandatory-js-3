@@ -67,3 +67,5 @@ location.reload(forceGet)
 forceGet	Boolean	Optional. Specifies the type of reloading:
 false - Default. Reloads the current page from the cache.
 true - Reloads the current page from the server
+
+ && userReload === false )|| userReload === false

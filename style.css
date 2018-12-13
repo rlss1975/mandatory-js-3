@@ -1,3 +1,4 @@
+
 main {
 	display: flex;
 	flex-direction: row;
@@ -24,8 +25,6 @@ li{
 }
 #bilder{
 width: 100%;
-
-
 }
 #hundBild{
 	width: 100%;
