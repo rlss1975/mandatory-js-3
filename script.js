@@ -51,34 +51,6 @@ function ajaxGet (url,myFunction){
 	req.send(null);
 };
 
-
-//
-//function for att render list
-/*
-function renderaGeneralList (dataIn){
-		//Vi renderar list på column 1 ( general breed lista)
-		data = JSON.parse(dataIn);
-		// Målet är få en array även dataIn är en object.
-		let attPrint;
-		if (typeof(data)==='object'){
-			//
-			console.log(data.message);
-			let dataArray = Object.keys(data.message);
-			console.log(dataArray);
-			attPrint = dataArray;
-		}else{
-			attPrint = data;
-		}
-		console.log(attPrint);
-		attPrint.forEach((element)=>{
-			//aqui hay que hacer algo para diferenciar la lista col 1 o col 2 MIRANDO SI LA LISTA 1 TIENE CONTENIDO O NO
-			let sthetic = capitalize(element);
-			vBreedUL.innerHTML += `<li class="breed" id="${element}">${sthetic}</li>`;
-			vButtonUrl ='';
-			vButtonUrl = allBreedAllRandomImages;
-		});
-		listAddEvent(vSelectedBreed);
-};*/
 function renderaList (dataIn){
 	//Vi renderar list på column 1 ( general breed lista)
 	
@@ -107,7 +79,7 @@ function renderaList (dataIn){
 		for (let breed of data.message[selectedItemIListorna]) {
 				// bara som memmory for använda senare
 				lastSelectedBreed = selectedItemIListorna;
-				//vi passar på att rendera och visar sub-breed av selected breed
+				//vi passar på att rendera och visar sub-breed list av selected breed
 				console.log(breed);
 				let sthetic = capitalize(breed);
 				vSubBreedUL.innerHTML += `<li class="classSubBreed" id="${breed}">${sthetic}</li>`;
@@ -172,6 +144,12 @@ function getImgUrl (imgUrlJson) {
 				console.log(imgUrl.message);
 				vHundImg.setAttribute('src', imgUrl.message);
 				//
+				//set Hund Name
+				let strUrl = imgUrl.message;
+				let arrUrl = strUrl.split('/');				
+				arrUrl = arrUrl[4].replace('-',' ');
+				let name = capitalize(arrUrl);
+				vHundTitle.textContent = `${name}.`
 				
 };
 
