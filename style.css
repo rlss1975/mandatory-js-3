@@ -4,12 +4,9 @@ main {
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: flex-start;
-	
 }
-
 #col1, #col2{
 	width: 30%;
-
 }
 #col3{
 	width: 30%;
@@ -21,12 +18,14 @@ li{
 	background: grey;
 	margin: 10px 0px ;
 	padding:5px 0px;
-
+	cursor: pointer;
 }
 #bilder{
 width: 100%;
 }
 #hundBild{
 	width: 100%;
-
+}
+button{
+	cursor: pointer;
 }

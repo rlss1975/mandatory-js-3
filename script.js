@@ -132,7 +132,8 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 //
-//När man klikar på knappen vi gör en req till adressen som är laddad i vButtonUrl. Adressen ska bli kopplad till någon random img iAPI beroende på vilket adressen behover program logik. Detta adressen är laddad i <img>.
+//När man klikar på knappen vi gör en req till adressen som är laddad i vButtonUrl. 
+//Adressen ska bli kopplad till någon random img iAPI beroende på vilket adressen behover program logik. Detta adressen är laddad i <img>.
 function getImgUrl (imgUrlJson) {
 	console.log(imgUrlJson);
 	let imgUrl = JSON.parse(imgUrlJson);
