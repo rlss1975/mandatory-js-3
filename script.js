@@ -88,12 +88,16 @@ function renderaList (dataIn){
 		listAddEvent(vSelectedSubBreed);
   	vButtonUrl ='';
 		vButtonUrl = `https://dog.ceo/api/breed/${selectedItemIListorna}/images/random`;
+		
 		ajaxGet(vButtonUrl,getImgUrl);
+		window.location.hash = `#${selectedItemIListorna}`;
 	
 	}else if (flagBreedSelected === 0 && flagSubBreedSelected === 1){	
 		vButtonUrl ='';
 		vButtonUrl = `https://dog.ceo/api/breed/${lastSelectedBreed}/${selectedItemIListorna}/images/random`;
+		
 		ajaxGet(vButtonUrl,getImgUrl);
+		window.location.hash = `#${lastSelectedBreed}/${selectedItemIListorna}`;
 	}
 };
 

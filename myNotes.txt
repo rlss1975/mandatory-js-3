@@ -48,3 +48,22 @@ window.location.hostname devuelve el nombre de dominio del proveedor de alojamie
 window.location.pathname devuelve la ruta y el nombre de la página actual
 window.location.protocol devuelve el protocolo web utilizado (http: o https :)
 window.location.assign carga un nuevo documento
+
+window.onbeforeunload = function (e) {
+    var e = e || window.event;
+
+    // For IE and Firefox
+    if (e) {
+        e.returnValue = 'Leaving the page';
+    }
+
+    // For Safari
+    return 'Leaving the page';
+};
+It is important to note that y
+
+ponemos reload();
+location.reload(forceGet)
+forceGet	Boolean	Optional. Specifies the type of reloading:
+false - Default. Reloads the current page from the cache.
+true - Reloads the current page from the server
